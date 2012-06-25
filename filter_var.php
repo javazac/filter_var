@@ -1,4 +1,7 @@
 <?php
+/**
+ *
+ */
 define('INPUT_POST', 0); 					//POST variables
 define('INPUT_GET', 1); 					//GET variables
 define('INPUT_COOKIE', 2); 					//COOKIE variables
