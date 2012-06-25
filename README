@@ -2,3 +2,38 @@ filter_var
 ==========
 
 Back port of the filter_var extension to versions of PHP < 5.2.0
+
+The filter var has many useful features but it wasn't packaged into php until
+php5.2. Since there are lot's of servers out there running earlier versions of
+php this is an easy way to include that functionality on older servers so that
+dependancy on this package doesn't break your software.
+
+Installation
+============
+
+Simply include the filter_var.php file the functionality of the filter_var
+package will be made available.
+
+Development Notes
+=================
+
+The specifications for the package are taken directly from the php.net pages
+for the package.
+
+The key to this dev process is the unit tests. The project uses SimpleTest
+mostly because it's super easy to get the test framework working on many
+different versions of php. The dev cycle follows a TDD paradigm. First a unit
+test is written and then run with a version of php > 5.2. Then the same test
+is run on a version of php < 5.2. At this point the test should fail. Then
+the functionality is added in to make the failing test pass. 
+
+This of course necessitates multiple versions of php with which to run the
+tests and if necessary multiple versions of the simple test framework that
+support the necessary version of php.
+
+Questions/Issues?
+=================
+
+Which versions of PHP is this actually going to support? Practically I only 
+need it to support php5.1. However there is no reason this package can't 
+practically support down to php4. Something to consider...
