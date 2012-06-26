@@ -25,7 +25,7 @@ define('FILTER_NULL_ON_FAILURE', 134217728);	//Use NULL instead of FALSE on fail
 define('FILTER_VALIDATE_INT', 257);				//ID of "int" filter.
 define('FILTER_VALIDATE_BOOLEAN', 258);			//ID of "boolean" filter.
 define('FILTER_VALIDATE_FLOAT', 259);			//ID of "float" filter.
-define('FILTER_VALIDATE_REGEX', 272);			//ID of "validate_regexp" filter.
+define('FILTER_VALIDATE_REGEXP', 272);			//ID of "validate_regexp" filter.
 define('FILTER_VALIDATE_URL', 273);				//ID of "validate_url" filter.
 define('FILTER_VALIDATE_EMAIL', 274);			//ID of "validate_email" filter.
 define('FILTER_VALIDATE_IP', 275);				//ID of "validate_id" filter.
