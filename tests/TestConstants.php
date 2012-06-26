@@ -24,7 +24,7 @@ class TestConstants extends UnitTestCase
 		$this->assertTrue(defined('FILTER_VALIDATE_INT'), "The FILTER_VALIDATE_INT constant is not defined.");
 		$this->assertTrue(defined('FILTER_VALIDATE_BOOLEAN'), "The FILTER_VALIDATE_BOOLEAN constant is not defined.");
 		$this->assertTrue(defined('FILTER_VALIDATE_FLOAT'), "The FILTER_VALIDATE_FLOAT constant is not defined.");
-		$this->assertTrue(defined('FILTER_VALIDATE_REGEX'), "The FILTER_VALIDATE_REGEX constant is not defined.");
+		$this->assertTrue(defined('FILTER_VALIDATE_REGEXP'), "The FILTER_VALIDATE_REGEX constant is not defined.");
 		$this->assertTrue(defined('FILTER_VALIDATE_URL'), "The FILTER_VALIDATE_URL constant is not defined.");
 		$this->assertTrue(defined('FILTER_VALIDATE_EMAIL'), "The XXX constant is not defined.");
 		$this->assertTrue(defined('FILTER_VALIDATE_IP'), "The XXX constant is not defined.");
