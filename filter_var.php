@@ -59,3 +59,32 @@ define('FILTER_FLAG_IPV4', 1048576);			//Allow only IPv4 address in "validate_ip
 define('FILTER_FLAG_IPV6', 2097152);			//Allow only IPv6 address in "validate_ip" filter. 
 define('FILTER_FLAG_NO_RES_RANGE', 4194304);	//Deny reserved addresses in "validate_ip" filter. 
 define('FILTER_FLAG_NO_PRIV_RANGE', 8388608);	//Deny private addresses in "validate_ip" filter. 
+
+/**
+ * Checks if varialbe of specified type exists
+ * 
+ * @param int $type One of INPUT_GET, INPUT_POST, INPUT_COOKIE, INPUT_SERVER, or INPUT_ENV.
+ * @param string $variable_name Name of a variable to check.
+ * @return bool Returns TRUE on success or FALSE on failure.
+ */
+function filter_has_var($type, $variable_name)
+{
+	switch($type) {
+
+		case INPUT_GET:
+			break;
+
+		case INPUT_POST:
+			break;
+
+		case INPUT_COOKIE:
+			break;
+
+		case INPUT_SERVER:
+			break;
+
+		case INPUT_ENV:
+			break;
+
+	}//end switch
+}//end function filter_has_var
