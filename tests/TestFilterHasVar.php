@@ -16,6 +16,11 @@ if(version_compare(PHP_VERSION, '5.2.0', '<')) {
  */
 class TestFilterHasVar extends UnitTestCase
 {
+	public function testFunctionExists()
+	{
+		$this->assertTrue(function_exists('filter_has_var'), "filter_has_var is not defined.");
+	}
+
 	public function testGET()
 	{
 		if(version_compare(PHP_VERSION, '5.2.0', '<')) {
