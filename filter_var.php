@@ -72,19 +72,22 @@ function filter_has_var($type, $variable_name)
 	switch($type) {
 
 		case INPUT_GET:
-			break;
+			return array_key_exists($variable_name, $_GET);
 
 		case INPUT_POST:
-			break;
+			return array_key_exists($variable_name, $_POST);
 
 		case INPUT_COOKIE:
-			break;
+			return array_key_exists($variable_name, $_COOKIE);
 
 		case INPUT_SERVER:
-			break;
+			return array_key_exists($variable_name, $_SERVER);
 
 		case INPUT_ENV:
-			break;
+			return array_key_exists($variable_name, $_ENV);
 
 	}//end switch
+
+	return false;
+
 }//end function filter_has_var
