@@ -88,3 +88,72 @@ function filter_has_var($type, $variable_name)
 
 	}//end switch
 }//end function filter_has_var
+
+/**
+ * Returns the filterID belonging to a named filter.
+ *
+ * @param string $filtername Name of a filter to get.
+ * @return mixed integer ID of a filter on success or false.
+ */
+function filter_id($filtername)
+{
+	switch($filtername) {
+
+		case 'FILTER_REQUIRE_SCALAR':
+			return FILTER_REQUIRE_SCALAR;
+
+		case 'FILTER_REQUIRE_ARRAY':
+			return FILTER_REQUIRE_ARRAY;
+
+		case 'FILTER_FORCE_ARRAY':
+			return FILTER_FORCE_ARRAY;
+
+		case 'FILTER_NULL_ON_FAILURE':
+			return FILTER_NULL_ON_FAILURE;
+
+		case 'FILTER_VALIDATE_INT':
+			return FILTER_VALIDATE_INT;
+
+		case 'FILTER_VALIDATE_BOOLEAN':
+			return FILTER_VALIDATE_BOOLEAN;
+
+		case 'FILTER_VALIDATE_FLOAT':
+			return FILTER_VALIDATE_FLOAT;
+
+		case 'FILTER_VALIDATE_REGEXP':
+			break;
+		case 'FILTER_VALIDATE_URL':
+			break;
+		case 'FILTER_VALIDATE_EMAIL':
+			break;
+		case 'FILTER_VALIDATE_IP':
+			break;
+		case 'FILTER_DEFAULT':
+			break;
+		case 'FILTER_UNSAFE_RAW':
+			break;
+		case 'FILTER_SANITIZE_STRING':
+			break;
+		case 'FILTER_SANITIZE_STRIPPED':
+			break;
+		case 'FILTER_SANITIZE_ENCODED':
+			break;
+		case 'FILTER_SANITIZE_SPECIAL_CHARS':
+			break;
+		case 'FILTER_SANITIZE_EMAIL':
+			break;
+		case 'FILTER_SANITIZE_URL':
+			break;
+		case 'FILTER_SANITIZE_NUMBER_INT':
+			break;
+		case 'FILTER_SANITIZE_NUMBER_FLOAT':
+			break;
+		case 'FILTER_SANITIZE_MAGIC_QUOTES':
+			break;
+		case 'FILTER_CALLBACK':
+			break;
+	}
+
+	return false;
+
+}//end function filter_id
