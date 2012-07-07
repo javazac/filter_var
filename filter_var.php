@@ -72,88 +72,91 @@ function filter_has_var($type, $variable_name)
 	switch($type) {
 
 		case INPUT_GET:
-			break;
+			return array_key_exists($variable_name, $_GET);
 
 		case INPUT_POST:
-			break;
+			return array_key_exists($variable_name, $_POST);
 
 		case INPUT_COOKIE:
-			break;
+			return array_key_exists($variable_name, $_COOKIE);
 
 		case INPUT_SERVER:
-			break;
+			return array_key_exists($variable_name, $_SERVER);
 
 		case INPUT_ENV:
-			break;
+			return array_key_exists($variable_name, $_ENV);
 
 	}//end switch
+
+	return false;
+
 }//end function filter_has_var
 
 /**
- * Returns the filterID belonging to a named filter.
+ * Returns the filter ID belonging to a named filter
  *
- * @param string $filtername Name of a filter to get.
- * @return mixed integer ID of a filter on success or false.
+ * @param string $filtername The name of a filter to get the id for
+ * @return mixed Integer ID of the filter or false if the filter doesn't exist.
  */
 function filter_id($filtername)
 {
 	switch($filtername) {
 
-		case 'FILTER_REQUIRE_SCALAR':
-			return FILTER_REQUIRE_SCALAR;
-
-		case 'FILTER_REQUIRE_ARRAY':
-			return FILTER_REQUIRE_ARRAY;
-
-		case 'FILTER_FORCE_ARRAY':
-			return FILTER_FORCE_ARRAY;
-
-		case 'FILTER_NULL_ON_FAILURE':
-			return FILTER_NULL_ON_FAILURE;
-
-		case 'FILTER_VALIDATE_INT':
+		case 'int':
 			return FILTER_VALIDATE_INT;
-
-		case 'FILTER_VALIDATE_BOOLEAN':
+			
+		case 'boolean':
 			return FILTER_VALIDATE_BOOLEAN;
-
-		case 'FILTER_VALIDATE_FLOAT':
+		
+		case 'float':
 			return FILTER_VALIDATE_FLOAT;
 
-		case 'FILTER_VALIDATE_REGEXP':
-			break;
-		case 'FILTER_VALIDATE_URL':
-			break;
-		case 'FILTER_VALIDATE_EMAIL':
-			break;
-		case 'FILTER_VALIDATE_IP':
-			break;
-		case 'FILTER_DEFAULT':
-			break;
-		case 'FILTER_UNSAFE_RAW':
-			break;
-		case 'FILTER_SANITIZE_STRING':
-			break;
-		case 'FILTER_SANITIZE_STRIPPED':
-			break;
-		case 'FILTER_SANITIZE_ENCODED':
-			break;
-		case 'FILTER_SANITIZE_SPECIAL_CHARS':
-			break;
-		case 'FILTER_SANITIZE_EMAIL':
-			break;
-		case 'FILTER_SANITIZE_URL':
-			break;
-		case 'FILTER_SANITIZE_NUMBER_INT':
-			break;
-		case 'FILTER_SANITIZE_NUMBER_FLOAT':
-			break;
-		case 'FILTER_SANITIZE_MAGIC_QUOTES':
-			break;
-		case 'FILTER_CALLBACK':
-			break;
+		case 'validate_regexp':
+			return FILTER_VALIDATE_REGEXP;
+
+		case 'validate_url':
+			return FILTER_VALIDATE_URL;
+
+		case 'validate_email':
+			return FILTER_VALIDATE_EMAIL;
+
+		case 'validate_ip':
+			return FILTER_VALIDATE_IP;
+
+		case 'string':
+			return FILTER_SANITIZE_STRING;
+
+		case 'stripped':
+			return FILTER_SANITIZE_STRIPPED;
+
+		case 'encoded':
+			return FILTER_SANITIZE_ENCODED;
+
+		case 'special_chars':
+			return FILTER_SANITIZE_SPECIAL_CHARS;
+
+		case 'unsafe_raw':
+			return FILTER_UNSAFE_RAW;
+
+		case 'email':
+			return FILTER_SANITIZE_EMAIL;
+
+		case 'url':
+			return FILTER_SANITIZE_URL;
+
+		case 'number_int':
+			return FILTER_SANITIZE_NUMBER_INT;
+
+		case 'number_float':
+			return FILTER_SANITIZE_NUMBER_FLOAT;
+
+		case 'magic_quotes':
+			return FILTER_SANITIZE_MAGIC_QUOTES;
+
+		case 'callback':
+			return FILTER_CALLBACK;
+
 	}
 
 	return false;
-
 }//end function filter_id
