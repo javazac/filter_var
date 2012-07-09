@@ -9,7 +9,7 @@ class TestFilterId extends UnitTestCase
 {
 	public function testFunctionExists()
 	{
-		$this->assertTrue(function_exists('filter_id'), "filter_has_var is not defined.");
+		$this->assertTrue(function_exists('filter_id'), "filter_id is not defined.");
 	}//end function testFunctionExists
 
 	public function testBogusFilter()
