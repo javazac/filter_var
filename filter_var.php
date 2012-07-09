@@ -163,8 +163,44 @@ function filter_id($filtername)
 
 /**
  * Filters a variable with a specified filter.
+ * 
+ * @param mixed $variable The variable to filter.
+ * @param int $filter The various filters to apply to $variable
+ * @param mixed $options Associative array of options or bitwise disjunction of flags
  */
-function filter_var($variable, $filter = FILTER_DEFAULT, $options)
+function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 {
+	$return = FALSE;
+	$flags = 0;
+	$opts = array();
+
+	if(is_array($options)) {
+		
+		if(array_key_exists('flags', $options)) {
+			$flags = $options['flags'];
+		}
+
+		if(array_key_exists('options', $options)) {
+			$opts = $options['options'];
+		}
+	}
+	else {
+		$flags = $options;
+	}
+
+	if($filter == FILTER_VALIDATE_BOOLEAN) {
+
+		if($variable === '1' || $variable === 'true' || $variable === 'on' || $variable === 'yes') {
+			$return = TRUE;
+		}
+		elseif($variable === '0' || $variable === 'false' || $variable === 'off' || $variable === 'no') {
+			$return = FALSE;
+		}
+		elseif($flags == FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
+		}
+	}
+
+	return $return;
 
 }//end funcfion filter_var
