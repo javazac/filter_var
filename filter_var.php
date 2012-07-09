@@ -160,3 +160,11 @@ function filter_id($filtername)
 
 	return false;
 }//end function filter_id
+
+/**
+ * Filters a variable with a specified filter.
+ */
+function filter_var($variable, $filter = FILTER_DEFAULT, $options)
+{
+
+}//end funcfion filter_var
