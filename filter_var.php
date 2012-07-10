@@ -60,6 +60,8 @@ define('FILTER_FLAG_IPV6', 2097152);			//Allow only IPv6 address in "validate_ip
 define('FILTER_FLAG_NO_RES_RANGE', 4194304);	//Deny reserved addresses in "validate_ip" filter. 
 define('FILTER_FLAG_NO_PRIV_RANGE', 8388608);	//Deny private addresses in "validate_ip" filter. 
 
+define('_FILTER_EMAIL_REGEX', '/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_-]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/');	//Regex constant for validating email addresses.
+
 /**
  * Checks if varialbe of specified type exists
  * 
@@ -199,6 +201,13 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		elseif($flags == FILTER_NULL_ON_FAILURE) {
 			$return = NULL;
 		}
+	}
+	elseif($filter == FILTER_VALIDATE_EMAIL) {
+		
+		if(strlen($variable) > 0 && preg_match(_FILTER_EMAIL_REGEX, $variable, $matches)) {
+			$return = $matches[0];	
+		}
+
 	}
 
 	return $return;
