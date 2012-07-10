@@ -44,4 +44,10 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === NULL, 'The "boolean" filter is not returning NULL.');
 	}
 
+	public function testValidateEmail()
+	{
+		$this->assertTrue(filter_var('testing@testing.com', FILTER_VALIDATE_EMAIL) === 'testing@testing.com', 'The validate email filter is returning false for a valid email.');
+		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_EMAIL) === FALSE, 'The validate email fiter is not returning FALSE for a valid email.');
+	}
+
 }//end class TestFilterVar
