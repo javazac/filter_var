@@ -61,6 +61,7 @@ define('FILTER_FLAG_NO_RES_RANGE', 4194304);	//Deny reserved addresses in "valid
 define('FILTER_FLAG_NO_PRIV_RANGE', 8388608);	//Deny private addresses in "validate_ip" filter. 
 
 define('_FILTER_EMAIL_REGEX', '/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_-]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/');	//Regex constant for validating email addresses.
+define('_FILTER_FLOAT_REGEX', '/^\d*?\.?\d*?$/');	//Regex constant for validate floats w/o thousands seperator.
 
 /**
  * Checks if varialbe of specified type exists
@@ -206,6 +207,19 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		
 		if(strlen($variable) > 0 && preg_match(_FILTER_EMAIL_REGEX, $variable, $matches)) {
 			$return = $matches[0];	
+		}
+
+	}
+	elseif($filter == FILTER_VALIDATE_FLOAT) {
+
+		$variable = trim($variable);
+
+		if($flags == FILTER_FLAG_ALLOW_THOUSAND) {
+			$variable = str_replace(',', '', $variable);
+		}
+		
+		if(strlen($variable) > 0 && preg_match(_FILTER_FLOAT_REGEX, $variable) === 1) {
+			$return = floatval($variable);
 		}
 
 	}

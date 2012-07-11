@@ -50,4 +50,23 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_EMAIL) === FALSE, 'The validate email fiter is not returning FALSE for a valid email.');
 	}
 
+	public function testValidateFloat()
+	{
+		$this->assertTrue(filter_var('', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for ""');
+		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for "testing"');
+		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_FLOAT) === .009, 'The validate float filter is not returning .009 for .009');
+		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for 1.1.');
+		$this->assertTrue(filter_var(.1, FILTER_VALIDATE_FLOAT) === .1, 'The validate float filter is not return .1 for .1');
+		$this->assertTrue(filter_var(1., FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for 1.');
+		$this->assertTrue(filter_var(1, FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for 1');
+		$this->assertTrue(filter_var('1.1', FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for "1.1"');
+		$this->assertTrue(filter_var(' 1.1 ', FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for " 1.1 "');
+		$this->assertTrue(filter_var('.1', FILTER_VALIDATE_FLOAT) === .1, 'The validate float filter is not return .1 for .1');
+		$this->assertTrue(filter_var('1.', FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for "1."');
+		$this->assertTrue(filter_var('1', FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for "1"');
+
+		$this->assertTrue(filter_var('1,000', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for "1,000" w/o the FILTER_FLAG_ALLOW_THOUSAND flag set.');
+		$this->assertTrue(filter_var('1,000', FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND) === 1000., 'The validate float filter is not returning FALSE for "1,000" w/o the FILTER_FLAG_ALLOW_THOUSAND flag set.');
+	}
+
 }//end class TestFilterVar
