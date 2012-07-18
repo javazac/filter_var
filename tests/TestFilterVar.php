@@ -69,4 +69,15 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('1,000', FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND) === 1000., 'The validate float filter is not returning FALSE for "1,000" w/o the FILTER_FLAG_ALLOW_THOUSAND flag set.');
 	}
 
+	public function testValidateInt()
+	{
+		$this->assertTrue(filter_var('', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for ""');
+		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for "testing"');
+		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for .009');
+		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for 1.1');
+		$this->assertTrue(filter_var(1, FILTER_VALIDATE_INT) === 1, 'The validate int filter is not returning 1 for 1');
+		$this->assertTrue(filter_var(1, FILTER_VALIDATE_INT, array(array('options' => 'min_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 1 with min_range = 10');
+		$this->assertTrue(filter_var(100, FILTER_VALIDATE_INT, array(array('options' => 'max_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 100 with max_range = 10');
+	}
+
 }//end class TestFilterVar
