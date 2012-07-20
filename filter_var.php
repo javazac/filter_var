@@ -60,6 +60,9 @@ define('FILTER_FLAG_IPV6', 2097152);			//Allow only IPv6 address in "validate_ip
 define('FILTER_FLAG_NO_RES_RANGE', 4194304);	//Deny reserved addresses in "validate_ip" filter. 
 define('FILTER_FLAG_NO_PRIV_RANGE', 8388608);	//Deny private addresses in "validate_ip" filter. 
 
+define('_FILTER_EMAIL_REGEX', '/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_-]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/');	//Regex constant for validating email addresses.
+define('_FILTER_FLOAT_REGEX', '/^\d*?\.?\d*?$/');	//Regex constant for validate floats w/o thousands seperator.
+
 /**
  * Checks if varialbe of specified type exists
  * 
@@ -160,3 +163,67 @@ function filter_id($filtername)
 
 	return false;
 }//end function filter_id
+
+/**
+ * Filters a variable with a specified filter.
+ * 
+ * @param mixed $variable The variable to filter.
+ * @param int $filter The various filters to apply to $variable
+ * @param mixed $options Associative array of options or bitwise disjunction of flags
+ */
+function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
+{
+	$return = FALSE;
+	$flags = 0;
+	$opts = array();
+
+	if(is_array($options)) {
+		
+		if(array_key_exists('flags', $options)) {
+			$flags = $options['flags'];
+		}
+
+		if(array_key_exists('options', $options)) {
+			$opts = $options['options'];
+		}
+	}
+	else {
+		$flags = $options;
+	}
+
+	if($filter == FILTER_VALIDATE_BOOLEAN) {
+
+		if($variable === '1' || $variable === 'true' || $variable === 'on' || $variable === 'yes') {
+			$return = TRUE;
+		}
+		elseif($variable === '0' || $variable === 'false' || $variable === 'off' || $variable === 'no') {
+			$return = FALSE;
+		}
+		elseif($flags == FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
+		}
+	}
+	elseif($filter == FILTER_VALIDATE_EMAIL) {
+		
+		if(strlen($variable) > 0 && preg_match(_FILTER_EMAIL_REGEX, $variable, $matches)) {
+			$return = $matches[0];	
+		}
+
+	}
+	elseif($filter == FILTER_VALIDATE_FLOAT) {
+
+		$variable = trim($variable);
+
+		if($flags == FILTER_FLAG_ALLOW_THOUSAND) {
+			$variable = str_replace(',', '', $variable);
+		}
+		
+		if(strlen($variable) > 0 && preg_match(_FILTER_FLOAT_REGEX, $variable) === 1) {
+			$return = floatval($variable);
+		}
+
+	}
+
+	return $return;
+
+}//end funcfion filter_var
