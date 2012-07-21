@@ -76,8 +76,12 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for .009');
 		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for 1.1');
 		$this->assertTrue(filter_var(1, FILTER_VALIDATE_INT) === 1, 'The validate int filter is not returning 1 for 1');
-		$this->assertTrue(filter_var(1, FILTER_VALIDATE_INT, array(array('options' => 'min_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 1 with min_range = 10');
-		$this->assertTrue(filter_var(100, FILTER_VALIDATE_INT, array(array('options' => 'max_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 100 with max_range = 10');
+		$this->assertTrue(filter_var('3', FILTER_VALIDATE_INT) === 3, 'The validate int filter is not returning 3 for "3"');
+		$this->assertTrue(filter_var(' 3 ', FILTER_VALIDATE_INT) === 3, 'The validate int filter is not returning 3 for " 3 "');
+		$this->assertTrue(filter_var(' 3d', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for " 3d"');
+
+		$this->assertTrue(filter_var(1, FILTER_VALIDATE_INT, array('options' => array('min_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 1 with min_range = 10');
+		$this->assertTrue(filter_var(100, FILTER_VALIDATE_INT, array('options' => array('max_range' => 10))) === FALSE, 'The validate int filter is not returning FALSE for 100 with max_range = 10');
 	}
 
 }//end class TestFilterVar
