@@ -64,7 +64,7 @@ define('_FILTER_EMAIL_REGEX', '/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)
 define('_FILTER_FLOAT_REGEX', '/^\d*?\.?\d*?$/');	//Regex constant for validate floats w/o thousands seperator.
 define('_FILTER_INT_BASE10_REGEX', '/^-?[1-9][0-9]*$/');	//Regex constant for validating base 10 integers.
 define('_FILTER_INT_OCTAL_REGEX', '/^-?0[0-7]+$/');	//Regex constant for validating octal integers.
-define('_FILTER_INT_HEX_REGEX', '/-?0[x][0-9a-f]+/i');	//Regex constant for validating hexidecimal integers.
+define('_FILTER_INT_HEX_REGEX', '/^-?0[x][0-9a-f]+$/i');	//Regex constant for validating hexidecimal integers.
 
 /**
  * Checks if varialbe of specified type exists
@@ -232,7 +232,8 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 		if(strlen($variable) > 0 && 
 		  ($variable === '0' || preg_match(_FILTER_INT_BASE10_REGEX, $variable) === 1) ||
-		  ($flags & FILTER_FLAG_ALLOW_OCTAL && preg_match(_FILTER_INT_OCTAL_REGEX, $variable)) 
+		  ($flags & FILTER_FLAG_ALLOW_OCTAL && preg_match(_FILTER_INT_OCTAL_REGEX, $variable)) ||
+		  ($flags & FILTER_FLAG_ALLOW_HEX && preg_match(_FILTER_INT_HEX_REGEX, $variable)) 
 		) {
 
 			$base = 10;

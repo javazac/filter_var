@@ -88,6 +88,8 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('045', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for "045" with the FILTER_FLAG_ALLOW_OCTAL flag not set.');
 		$this->assertTrue(filter_var('045', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL) === 045, 'The validate int filter is not returning 045 for "045" with the FILTER_FLAG_ALLOW_OCTAL flag set.');
 		$this->assertTrue(filter_var('-045', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL) === -045, 'The validate int filter is not returning -045 for "-045" with the FILTER_FLAG_ALLOW_OCTAL flag set.');
+		$this->assertTrue(filter_var('0x33', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_HEX) === 0x33, 'The validate int filter is not returning 0x33 for "0x33" with the FILTER_FLAG_ALLOW_HEX flag set.');
+		$this->assertTrue(filter_var('-0x33', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_HEX) === FALSE, 'The validate int filter is not returning -0x33 for "-0x33" with the FILTER_FLAG_ALLOW_HEX flag set.');
 		$this->assertTrue(filter_var('045', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL | FILTER_FLAG_ALLOW_HEX) === 045, 'The validate int filter is not returning 045 for "045" with the FILTER_FLAG_ALLOW_OCTAL | FILTER_FLAG_ALLOW_HEX flag set.');
 	}
 
