@@ -63,8 +63,8 @@ define('FILTER_FLAG_NO_PRIV_RANGE', 8388608);	//Deny private addresses in "valid
 define('_FILTER_EMAIL_REGEX', '/^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_-]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/');	//Regex constant for validating email addresses.
 define('_FILTER_FLOAT_REGEX', '/^\d*?\.?\d*?$/');	//Regex constant for validate floats w/o thousands seperator.
 define('_FILTER_INT_BASE10_REGEX', '/^-?[1-9][0-9]*$/');	//Regex constant for validating base 10 integers.
-define('_FILTER_INT_OCTAL_REGEX', '/^-?0[0-7]+$/');	//Regex constant for validating octal integers.
-define('_FILTER_INT_HEX_REGEX', '/^-?0[x][0-9a-f]+$/i');	//Regex constant for validating hexidecimal integers.
+define('_FILTER_INT_OCTAL_REGEX', '/^0[0-7]+$/');	//Regex constant for validating octal integers.
+define('_FILTER_INT_HEX_REGEX', '/^0[x][0-9a-f]+$/i');	//Regex constant for validating hexidecimal integers.
 
 /**
  * Checks if varialbe of specified type exists
@@ -239,16 +239,16 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 			$base = 10;
 
 			if($flags & FILTER_FLAG_ALLOW_HEX && (
-			  strpos($variable, '0x') === 0 || 
-			  strpos($variable, '-0x') === 0 || 
-			  strpos($variable, '0X') === 0 || 
-			  strpos($variable, '-0X') === 0
+			  strpos($variable, '0x') === 0
+			  //|| strpos($variable, '-0x') === 0
+			  || strpos($variable, '0X') === 0
+			  //|| strpos($variable, '-0X') === 0
 			)) {
 				$base = 16;
 			}
 			elseif($flags & FILTER_FLAG_ALLOW_OCTAL && (
-			  strpos($variable, '0') === 0 || 
-			  strpos($variable, '-0') === 0
+			  strpos($variable, '0') === 0
+			  //|| strpos($variable, '-0') === 0
 			)) {
 				$base = 8;
 			}

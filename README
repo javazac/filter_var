@@ -37,3 +37,9 @@ Questions/Issues?
 Which versions of PHP is this actually going to support? Practically I only 
 need it to support php5.1. However there is no reason this package can't 
 practically support down to php4. Something to consider...
+
+Interesting things...
+=====================
+
+FILTER_VALIDATE_INT - It seems that this filter does not work for negative
+integers using octal or hexadecimal numbers.
