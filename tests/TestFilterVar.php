@@ -56,10 +56,12 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for "testing"');
 		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_FLOAT) === .009, 'The validate float filter is not returning .009 for .009');
 		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for 1.1.');
+		$this->assertTrue(filter_var(-1.1, FILTER_VALIDATE_FLOAT) === -1.1, 'The validate float filter is not return -1.1 for -1.1.');
 		$this->assertTrue(filter_var(.1, FILTER_VALIDATE_FLOAT) === .1, 'The validate float filter is not return .1 for .1');
 		$this->assertTrue(filter_var(1., FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for 1.');
 		$this->assertTrue(filter_var(1, FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for 1');
 		$this->assertTrue(filter_var('1.1', FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for "1.1"');
+		$this->assertTrue(filter_var('-1.1', FILTER_VALIDATE_FLOAT) === -1.1, 'The validate float filter is not return -1.1 for "-1.1"');
 		$this->assertTrue(filter_var(' 1.1 ', FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for " 1.1 "');
 		$this->assertTrue(filter_var('.1', FILTER_VALIDATE_FLOAT) === .1, 'The validate float filter is not return .1 for .1');
 		$this->assertTrue(filter_var('1.', FILTER_VALIDATE_FLOAT) === 1., 'The validate float filter is not return 1. for "1."');
