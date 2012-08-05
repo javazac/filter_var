@@ -65,6 +65,7 @@ define('_FILTER_FLOAT_REGEX', '/^-?\d*?\.?\d*?$/');	//Regex constant for validat
 define('_FILTER_INT_BASE10_REGEX', '/^-?[1-9][0-9]*$/');	//Regex constant for validating base 10 integers.
 define('_FILTER_INT_OCTAL_REGEX', '/^0[0-7]+$/');	//Regex constant for validating octal integers.
 define('_FILTER_INT_HEX_REGEX', '/^0[x][0-9a-f]+$/i');	//Regex constant for validating hexidecimal integers.
+define('_FILTER_IPV4_REGEX', '@^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$@');	//Regex constant for validateing IPv4 addresses.
 
 /**
  * Checks if varialbe of specified type exists
@@ -272,6 +273,15 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 					}
 				}
 			}
+		}
+	}
+	elseif($filter == FILTER_VALIDATE_IP) {
+
+		if(strlen($variable) > 0 &&
+		  (preg_match(_FILTER_IPV4_REGEX, $variable) === 1)
+		) {
+
+			$return = $variable;
 		}
 	}
 
