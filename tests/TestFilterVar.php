@@ -95,4 +95,11 @@ class TestFilterVar extends UnitTestCase
 		$this->assertTrue(filter_var('045', FILTER_VALIDATE_INT, FILTER_FLAG_ALLOW_OCTAL | FILTER_FLAG_ALLOW_HEX) === 045, 'The validate int filter is not returning 045 for "045" with the FILTER_FLAG_ALLOW_OCTAL | FILTER_FLAG_ALLOW_HEX flag set.');
 	}
 
+	public function testValidateIP()
+	{
+		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP) === '192.168.1.1', 'FILTER_VALIDATE_IP (no flags) fails for 192.168.1.1');
+		$this->assertTrue(filter_var('192.168.1.1 ', FILTER_VALIDATE_IP) === FALSE, 'FILTER_VALIDATE_IP (no flags) fails for "192.168.1.1 "');
+		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6) fails for "192.168.1.1"');
+	}
+
 }//end class TestFilterVar

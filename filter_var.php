@@ -277,11 +277,21 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 	}
 	elseif($filter == FILTER_VALIDATE_IP) {
 
+		/*
 		if(strlen($variable) > 0 &&
 		  (preg_match(_FILTER_IPV4_REGEX, $variable) === 1)
 		) {
 
 			$return = $variable;
+		}
+		*/
+
+		if(strlen($variable) > 0) {
+
+			if(($flags ^ FILTER_FLAG_IPV6) && preg_match(_FILTER_IPV4_REGEX, $variable) === 1) {
+				$return = $variable;
+			}
+
 		}
 	}
 
