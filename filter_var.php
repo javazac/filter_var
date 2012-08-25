@@ -278,15 +278,6 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 	}
 	elseif($filter == FILTER_VALIDATE_IP) {
 
-		/*
-		if(strlen($variable) > 0 &&
-		  (preg_match(_FILTER_IPV4_REGEX, $variable) === 1)
-		) {
-
-			$return = $variable;
-		}
-		*/
-
 		if(strlen($variable) > 0) {
 			
 			if(($flags ^ FILTER_FLAG_IPV6) 
@@ -300,6 +291,21 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				$return = $variable;
 			}
 
+		}
+	}
+	elseif($filter == FILTER_VALIDATE_REGEXP) {
+
+		if(strlen($opts['regexp']) > 0) {
+			if(preg_match($opts['regexp'], $variable) > 0) {
+
+				$return = $variable;
+			}
+		}
+		else {
+
+			$debug_backtrace = debug_backtrace();
+			
+			trigger_error("filter_var(): 'regexp' option missing in {$debug_backtrace[0]['file']} on line {$debug_backtrace[0]['line']}", E_USER_WARNING);
 		}
 	}
 
