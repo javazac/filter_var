@@ -43,3 +43,8 @@ Interesting things...
 
 FILTER_VALIDATE_INT - It seems that this filter does not work for negative
 integers using octal or hexadecimal numbers.
+
+FILTER_VALIDATE_REGEXP - In the php supplied version if a "regexp" option is
+not passed to the function an E_WARNING error is triggered. Unfortunately in
+php we cannot trigger an E_WARNING, we can only trigger E_USER_WARNING so we 
+went with that.
