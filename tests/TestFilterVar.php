@@ -1,11 +1,7 @@
 <?php
-require_once 'simpletest/autorun.php';
+require_once 'AbstractFilterVarTest.php';
 
-if(version_compare(PHP_VERSION, '5.2.0', '<')) {
-	require_once '../filter_var.php';
-}
-
-class TestFilterVar extends UnitTestCase
+class TestFilterVar extends AbstractFilterVarTest
 {
 	public function testFunctionExists()
 	{
