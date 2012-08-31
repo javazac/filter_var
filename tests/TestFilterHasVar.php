@@ -1,9 +1,5 @@
 <?php
-require_once 'simpletest/autorun.php';
-
-if(version_compare(PHP_VERSION, '5.2.0', '<')) {
-	require_once '../filter_var.php';
-}
+require_once 'AbstractFilterVarTest.php';
 
 /**
  * The filter_has_var implementation that is part of this package checks for array keys in 
@@ -14,7 +10,7 @@ if(version_compare(PHP_VERSION, '5.2.0', '<')) {
  * This means we can't really duplicate the behaviour correctly. We can get close enough that
  * it won't matter for our purposes though.
  */
-class TestFilterHasVar extends UnitTestCase
+class TestFilterHasVar extends AbstractFilterVarTest
 {
 	public function testFunctionExists()
 	{
