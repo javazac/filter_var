@@ -280,17 +280,27 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 		if(strlen($variable) > 0) {
 			
+			//Check IPv4 addresses...
 			if(($flags ^ FILTER_FLAG_IPV6) 
 			  && preg_match(_FILTER_IPV4_REGEX, $variable) === 1) {
 
 				$return = $variable;
 			}
+			//Check IPv6 addresses...
 			elseif(($flags ^ FILTER_FLAG_IPV4)
 			  && preg_match(_FILTER_IPV6_REGEX, $variable) === 1) {
 				
 				$return = $variable;
 			}
 
+			//Check if private range ip addresses are not allowed...
+			if($return !== FALSE && $flags & FILTER_FLAG_NO_PRIV_RANGE) {
+
+				//Use a simple test of value to check for IPv4 private ranges.
+				if(strpos($variable, '192.168') === 0) {
+					$return = FALSE;
+				}
+			}
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_REGEXP) {
