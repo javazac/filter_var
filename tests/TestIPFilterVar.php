@@ -11,9 +11,17 @@ class TestIPFilterVar extends UnitTestCase
 	{
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP) === '192.168.1.1', 'FILTER_VALIDATE_IP (no flags) fails for 192.168.1.1');
 		$this->assertTrue(filter_var('192.168.1.1 ', FILTER_VALIDATE_IP) === FALSE, 'FILTER_VALIDATE_IP (no flags) fails for "192.168.1.1 "');
+	}//end function testValidateIPv4
+
+	public function testValidateIPv4wFlags()
+	{
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6) fails for "192.168.1.1"');
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === '192.168.1.1', 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV4) fails for "192.168.1.1"');
-	}//end function testValidateIPv4
+
+		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "192.168.1.1"');
+		$this->assertTrue(filter_var('72.29.164.70', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === '72.29.164.70', 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "72.29.164.70"');
+
+	}
 
 	public function testValidateIPv6()
 	{
