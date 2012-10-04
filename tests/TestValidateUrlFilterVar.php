@@ -3,6 +3,10 @@ require_once 'AbstractFilterVarTest.php';
 
 class TestValidateUrlFilterVar extends AbstractFilterVarTest
 {
+	public function testValidateUrlEmpty()
+	{
+		$this->assertFalse(filter_var('', FILTER_VALIDATE_URL), 'FILTER_VALIDATE_URL didn\'t return false for empty string');
+	}
 	public function testValidateUrlNoOpts()
 	{
 		$url = 'http://www.google.com';
