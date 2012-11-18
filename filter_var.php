@@ -330,14 +330,18 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 				$return = $variable;
 
-				if($return !== FALSE && $flags & FILTER_FLAG_PATH_REQUIRED) {
+				if($return !== FALSE 
+				  && $flags & FILTER_FLAG_PATH_REQUIRED 
+				  && !$parsed_url['path']) {
 					
-					$return = strlen($parsed_url['path']) > 0 ? TRUE : FALSE;
+					$return = FALSE;
 				}
 
-				if($return !== FALSE && $flags & FILTER_FLAG_QUERY_REQUIRED) {
+				if($return !== FALSE 
+				  && $flags & FILTER_FLAG_QUERY_REQUIRED 
+				  && !$parsed_url['query']) {
 
-					$return = strlen($parsed_url['query']) > 0 ? TRUE : FALSE;
+					$return = FALSE;
 				}
 			}
 		}

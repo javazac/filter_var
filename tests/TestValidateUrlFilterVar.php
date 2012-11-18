@@ -13,8 +13,9 @@ class TestValidateUrlFilterVar extends AbstractFilterVarTest
 		$urls = array(
 			'http://www.google.com',
 			'https://github.com',
+			'https://github.com/javazac',
 			'ssh://zkonopa@javazac.com',
-			'mailto://zac@javazac.com'
+			'mailto://zac@javazac.com?subject=testing%20testing...'
 		);
 
 		foreach($urls as $url) {
@@ -26,5 +27,12 @@ class TestValidateUrlFilterVar extends AbstractFilterVarTest
 					"FILTER_VALIDATE_URL failed for {$url}"
 				);
 		}
+	}
+
+	public function testValidateUrlRequirePath()
+	{
+
+		$this->assertTrue(filter_var('https://github.com', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with path required");
+		$this->assertTrue(filter_var('https://github.com/javazac', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === 'https://github.com/javazac', "FILTER_VALIDATE_URL failed with path required");
 	}
 }//end class TestValidateUrlFilterVar
