@@ -322,7 +322,24 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 	elseif($filter == FILTER_VALIDATE_URL) {
 
 		if(strlen($variable)) {
-			//MARKER
+			
+			$parsed_url = parse_url($variable);
+
+
+			if($parsed_url) {
+
+				$return = $variable;
+
+				if($return !== FALSE && $flags & FILTER_FLAG_PATH_REQUIRED) {
+					
+					$return = strlen($parsed_url['path']) > 0 ? TRUE : FALSE;
+				}
+
+				if($return !== FALSE && $flags & FILTER_FLAG_QUERY_REQUIRED) {
+
+					$return = strlen($parsed_url['query']) > 0 ? TRUE : FALSE;
+				}
+			}
 		}
 	}
 
