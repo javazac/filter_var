@@ -35,4 +35,23 @@ class TestValidateUrlFilterVar extends AbstractFilterVarTest
 		$this->assertTrue(filter_var('https://github.com', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with path required");
 		$this->assertTrue(filter_var('https://github.com/javazac', FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === 'https://github.com/javazac', "FILTER_VALIDATE_URL failed with path required");
 	}
+
+	public function testValidateUrlRequireQuery()
+	{
+
+		$this->assertTrue(filter_var('https://github.com', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with query required");
+		$this->assertTrue(filter_var('https://github.com?testing=testing', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED) === 'https://github.com?testing=testing', "FILTER_VALIDATE_URL failed with query required");
+	}
+
+	public function testValidateUrlRequireQueryAndPath()
+	{
+
+		$this->assertTrue(filter_var('https://github.com', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_PATH_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with query and path required");
+
+		$this->assertTrue(filter_var('https://github.com/javazac', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_PATH_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with query and path required");
+
+		$this->assertTrue(filter_var('https://github.com?testing=testing', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_PATH_REQUIRED) === FALSE, "FILTER_VALIDATE_URL failed with query and path required");
+
+		$this->assertTrue(filter_var('https://github.com/javazac?testing=testing', FILTER_VALIDATE_URL, FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_PATH_REQUIRED) === 'https://github.com/javazac?testing=testing', "FILTER_VALIDATE_URL failed with query and path required");
+	}
 }//end class TestValidateUrlFilterVar
