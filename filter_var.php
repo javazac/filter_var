@@ -67,7 +67,7 @@ define('_FILTER_INT_OCTAL_REGEX', '/^0[0-7]+$/');	//Regex constant for validatin
 define('_FILTER_INT_HEX_REGEX', '/^0[x][0-9a-f]+$/i');	//Regex constant for validating hexidecimal integers.
 define('_FILTER_IPV4_REGEX', '@^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$@');	//Regex constant for validateing IPv4 addresses.
 define('_FILTER_IPV6_REGEX', '/^(((?=(?>.*?(::))(?!.+\3)))\3?|([\dA-F]{1,4}(\3|:(?!$)|$)|\2))(?4){5}((?4){2}|(25[0-5]|(2[0-4]|1\d|[1-9])?\d)(\.(?7)){3})\z/i');	//Regex constant for validateing IPv6 addresses.
-define('_FILTER_VALIDATE_URL_SECTIONS', '@^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?'); //Regex constant used to break URLs into sections for further validation.
+define('_FILTER_VALIDATE_URL_SECTIONS_REGEX', '@^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?'); //Regex constant used to break URLs into sections for further validation.
 
 /**
  * Checks if varialbe of specified type exists
@@ -345,6 +345,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				}
 			}
 		}
+	}
+	elseif($filter == FILTER_SANITIZE_EMAIL) {
+		
+		$return = $variable;
 	}
 
 	return $return;
