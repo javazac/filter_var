@@ -351,6 +351,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		
 		$return = preg_replace(_FILTER_SANITIZE_EMAIL_REGEX, '', $variable);
 	}
+	elseif($filter == FILTER_SANITIZE_ENCODED) {
+
+		$return = rawurlencode($variable);
+	}
 
 	return $return;
 
