@@ -10,4 +10,9 @@ class TestSanitizeEmail extends AbstractFilterVarTest
 		$this->assertTrue(filter_var('testing@cleverconcepts.net', FILTER_SANITIZE_EMAIL) === 'testing@cleverconcepts.net', 'failed to return same string w/o any invalid characters');
 	}//end method testSanitizeEmail
 
+	public function testSanitizeEmailChanges()
+	{
+		$this->assertTrue(FALSE, 'These tests need to be implemented...');
+	}
+
 }//end class TestSanitizeEmail
