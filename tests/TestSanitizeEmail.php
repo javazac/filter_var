@@ -12,7 +12,13 @@ class TestSanitizeEmail extends AbstractFilterVarTest
 
 	public function testSanitizeEmailChanges()
 	{
-		$this->assertTrue(FALSE, 'These tests need to be implemented...');
+		$testEmails = array(
+			'test<>ing@cleverconcepts.net'
+		);
+
+		foreach($testEmails as $email) {
+			$this->assertTrue(filter_var($email, FILTER_SANITIZE_EMAIL) === 'testing@cleverconcepts.net', 'sanitize email failed for '.$email);
+		}
 	}
 
 }//end class TestSanitizeEmail

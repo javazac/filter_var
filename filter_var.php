@@ -355,6 +355,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 		$return = rawurlencode($variable);
 	}
+	elseif($filter == FILTER_SANITIZE_MAGIC_QUOTES) {
+
+		$return = addslashes($variable);
+	}
 
 	return $return;
 
