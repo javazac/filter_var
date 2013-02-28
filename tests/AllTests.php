@@ -8,6 +8,10 @@ require_once 'TestFilterVar.php';
 require_once 'TestIPFilterVar.php';
 require_once 'TestNumericFilterVar.php';
 require_once 'TestRegexpFilterVar.php';
+require_once 'TestSanitizeEmail.php';
+require_once 'TestSanitizeEncoded.php';
+require_once 'TestSanitizeMagicQuotes.php';
+require_once 'TestValidateUrlFilterVar.php';
 
 class AllTests extends TestSuite {
 
@@ -16,11 +20,16 @@ class AllTests extends TestSuite {
 		parent::__construct();
 
 		$this->add(new TestBooleanFilterVar());
-		$this->add(new TestFilterHasVar());
+		//$this->add(new TestFilterHasVar());
 		$this->add(new TestFilterId());
 		$this->add(new TestFilterVar());
 		$this->add(new TestIPFilterVar());
 		$this->add(new TestNumericFilterVar());
 		$this->add(new TestRegexpFilterVar());
+		$this->add(new TestSanitizeEmail());
+		$this->add(new TestSanitizeEncoded());
+		$this->add(new TestSanitizeMagicQuotes());
+		$this->add(new TestValidateUrlFilterVar());
+
 	}
 }
