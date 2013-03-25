@@ -69,6 +69,7 @@ define('_FILTER_IPV4_REGEX', '@^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]
 define('_FILTER_IPV6_REGEX', '/^(((?=(?>.*?(::))(?!.+\3)))\3?|([\dA-F]{1,4}(\3|:(?!$)|$)|\2))(?4){5}((?4){2}|(25[0-5]|(2[0-4]|1\d|[1-9])?\d)(\.(?7)){3})\z/i');	//Regex constant for validateing IPv6 addresses.
 define('_FILTER_VALIDATE_URL_SECTIONS_REGEX', '@^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?'); //Regex constant used to break URLs into sections for further validation.
 define('_FILTER_SANITIZE_EMAIL_REGEX', "@[^a-z!#$%&'*+-/=?^_`{|}~\@.\[\]]@"); //used to sanitize characters in an email address.
+define('_FILTER_SANITIZE_NUMBER_FLOAT_REGEX1', '/[^\d-+\.,eE]/'); //filter all the absolutely disallowed characters
 
 /**
  * Checks if varialbe of specified type exists
@@ -332,14 +333,14 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				$return = $variable;
 
 				if($return !== FALSE 
-				  && $flags & FILTER_FLAG_PATH_REQUIRED 
+				  && ($flags & FILTER_FLAG_PATH_REQUIRED)
 				  && !$parsed_url['path']) {
 					
 					$return = FALSE;
 				}
 
 				if($return !== FALSE 
-				  && $flags & FILTER_FLAG_QUERY_REQUIRED 
+				  && ($flags & FILTER_FLAG_QUERY_REQUIRED)
 				  && !$parsed_url['query']) {
 
 					$return = FALSE;
@@ -358,6 +359,25 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 	elseif($filter == FILTER_SANITIZE_MAGIC_QUOTES) {
 
 		$return = addslashes($variable);
+	}
+	elseif($filter == FILTER_SANITIZE_NUMBER_FLOAT) {
+
+		$return = preg_replace(_FILTER_SANITIZE_NUMBER_FLOAT_REGEX1, '', $variable);
+
+		if(!($flags & FILTER_FLAG_ALLOW_FRACTION)) {
+
+			$return = str_replace('.', '', $return);
+		}
+
+		if(!($flags & FILTER_FLAG_ALLOW_THOUSAND)) {
+
+			$return = str_replace(',', '', $return);
+		}
+
+		if(!($flags & FILTER_FLAG_ALLOW_SCIENTIFIC)) {
+
+			$return = str_ireplace('e', '', $return);
+		}
 	}
 
 	return $return;
