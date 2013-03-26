@@ -379,6 +379,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 			$return = str_ireplace('e', '', $return);
 		}
 	}
+	elseif($filter == FILTER_SANITIZE_NUMBER_INT) {
+
+		$return = preg_replace('/[^\d]/', '', $variable);
+	}
 
 	return $return;
 
