@@ -385,8 +385,8 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 	}
 	elseif($filter == FILTER_SANITIZE_SPECIAL_CHARS) {
 
-		$search = array("'");
-		$replace = array('&#39;');
+		$search = array('&', "'", '"', '<');
+		$replace = array('&#38;', '&#39;', '&#34;', '&#60;');
 
 		$return = str_replace($search, $replace, $variable);
 	}
