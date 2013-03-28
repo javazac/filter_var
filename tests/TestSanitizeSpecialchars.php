@@ -7,6 +7,6 @@ class TestSanitizeSpecialchars extends AbstractFilterVarTest
 	{
 		$input = "aaa'bbb";
 		$output = filter_var($input, FILTER_SANITIZE_SPECIAL_CHARS);
-		$this->assertTrue($output === 'aaa\\\'bbb', 'failed filtering '.$input);
+		$this->assertTrue($output === 'aaa&#39;bbb', 'failed filtering: '.$output);
 	}
 }

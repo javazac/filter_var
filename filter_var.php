@@ -383,6 +383,13 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 		$return = preg_replace('/[^\d]/', '', $variable);
 	}
+	elseif($filter == FILTER_SANITIZE_SPECIAL_CHARS) {
+
+		$search = array("'");
+		$replace = array('&#39;');
+
+		$return = str_replace($search, $replace, $variable);
+	}
 
 	return $return;
 
