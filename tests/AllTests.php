@@ -13,7 +13,7 @@ require_once 'TestSanitizeEncoded.php';
 require_once 'TestSanitizeMagicQuotes.php';
 require_once 'TestSanitizeNumberFloat.php';
 require_once 'TestSanitizeNumberInt.php';
-require_once 'TestSanitizeNumberSpecialchars.php';
+require_once 'TestSanitizeSpecialchars.php';
 require_once 'TestValidateUrlFilterVar.php';
 
 class AllTests extends TestSuite {
