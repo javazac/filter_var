@@ -389,6 +389,42 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		$replace = array('&#38;', '&#39;', '&#34;', '&#60;');
 
 		$return = str_replace($search, $replace, $variable);
+
+		//Sanitize low and high characters
+
+		$tmp_return = '';
+
+		for($i = 0, $li = strlen($return); $i < $li; $i++) {
+
+			$char = substr($return, $i, 1);
+			$ord = ord($char);
+			
+			if($ord < 32) {
+
+				if($flags & FILTER_FLAG_STRIP_LOW) {
+					//do nothing
+				}
+				else {
+
+					$tmp_return .= '&#'.$ord.';';
+				}
+			}
+			elseif($ord > 127 && $flags & FILTER_FLAG_STRIP_HIGH) {
+
+				//do nothing
+			}
+			elseif($ord > 127 && $flags & FILTER_FLAG_ENCODE_HIGH) {
+
+				$tmp_return .= '&#'.$ord.';';
+			}
+			else {
+
+				$tmp_return .= $char;
+			}
+		}
+
+		$return = $tmp_return;
+
 	}
 
 	return $return;
