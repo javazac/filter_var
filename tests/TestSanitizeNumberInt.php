@@ -1,7 +1,7 @@
 <?php
 require_once 'AbstractFilterVarTest.php';
 
-class TestSanitizeNumberFloat extends AbstractFilterVarTest
+class TestSanitizeNumberInt extends AbstractFilterVarTest
 {
 	public function testNoFilters()
 	{
