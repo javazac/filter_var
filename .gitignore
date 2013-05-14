@@ -1,1 +1,4 @@
 tests/test.php
+.buildpath
+.project
+.settings
