@@ -23,6 +23,7 @@ class AllTests extends TestSuite {
 		parent::__construct();
 
 		$this->add(new TestBooleanFilterVar());
+		$this->add(new TestConstants());
 		$this->add(new TestFilterHasVar());
 		$this->add(new TestFilterId());
 		$this->add(new TestFilterVar());
