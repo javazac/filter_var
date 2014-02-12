@@ -15,6 +15,7 @@ require_once 'TestSanitizeNumberFloat.php';
 require_once 'TestSanitizeNumberInt.php';
 require_once 'TestSanitizeSpecialchars.php';
 require_once 'TestValidateUrlFilterVar.php';
+require_once 'TestRequireInput.php';
 
 class AllTests extends TestSuite {
 
@@ -37,6 +38,7 @@ class AllTests extends TestSuite {
 		$this->add(new TestSanitizeNumberInt());
 		$this->add(new TestSanitizeSpecialchars());
 		$this->add(new TestValidateUrlFilterVar());
+		$this->add(new TestRequireInput());
 
 	}
 }
