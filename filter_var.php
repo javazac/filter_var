@@ -334,14 +334,14 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 				if($return !== FALSE 
 				  && ($flags & FILTER_FLAG_PATH_REQUIRED)
-				  && !$parsed_url['path']) {
+				  && !isset($parsed_url['path'])) {
 					
 					$return = FALSE;
 				}
 
 				if($return !== FALSE 
 				  && ($flags & FILTER_FLAG_QUERY_REQUIRED)
-				  && !$parsed_url['query']) {
+				  && !isset($parsed_url['query'])) {
 
 					$return = FALSE;
 				}
