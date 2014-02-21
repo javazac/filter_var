@@ -7,14 +7,18 @@ class TestIPFilterVar extends AbstractFilterVarTest
 	{
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP) === '192.168.1.1', 'FILTER_VALIDATE_IP (no flags) fails for 192.168.1.1');
 		$this->assertTrue(filter_var('192.168.1.1 ', FILTER_VALIDATE_IP) === FALSE, 'FILTER_VALIDATE_IP (no flags) fails for "192.168.1.1 "');
+		$this->assertTrue(filter_var('192.168.1.1 ', FILTER_VALIDATE_IP, FILTER_NULL_ON_FAILURE) === NULL, 'FILTER_VALIDATE_IP (no flags) fails for "192.168.1.1 "');
 	}//end function testValidateIPv4
 
 	public function testValidateIPv4wFlags()
 	{
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6) fails for "192.168.1.1"');
+		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6|FILTER_NULL_ON_FAILURE) === NULL, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6) fails for "192.168.1.1"');
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === '192.168.1.1', 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV4) fails for "192.168.1.1"');
 
 		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "192.168.1.1"');
+		$this->assertTrue(filter_var('192.168.1.1', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE|FILTER_NULL_ON_FAILURE) === NULL, 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) null on fails for "192.168.1.1"');
+
 		$this->assertTrue(filter_var('10.0.0.0', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "10.0.0.0"');
 		$this->assertTrue(filter_var('172.16.0.0', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "172.16.0.0"');
 		$this->assertTrue(filter_var('72.29.164.70', FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE) === '72.29.164.70', 'FILTER_VALIDATE_IP (FILTER_FLAG_NO_PRIV_RANGE) fails for "72.29.164.70"');
@@ -37,6 +41,7 @@ class TestIPFilterVar extends AbstractFilterVarTest
 	public function testValidateIPv6wFlags()
 	{
 		$this->assertTrue(filter_var('2001:0db8:85a3:0000:0000:8a2e:0370:7334', FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV4) failed');
+		$this->assertTrue(filter_var('2001:0db8:85a3:0000:0000:8a2e:0370:7334', FILTER_VALIDATE_IP, FILTER_FLAG_IPV4|FILTER_NULL_ON_FAILURE) === NULL, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV4) failed');
 		$this->assertTrue(filter_var('2001:0db8:85a3:0000:0000:8a2e:0370:7334', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === '2001:0db8:85a3:0000:0000:8a2e:0370:7334', 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6) failed');
 		$this->assertTrue(filter_var('::1', FILTER_VALIDATE_IP, FILTER_FLAG_IPV6|FILTER_FLAG_NO_RES_RANGE) === FALSE, 'FILTER_VALIDATE_IP (FILTER_FLAG_IPV6|FILTER_FLAG_NO_RES_RANGE) failed');
 
