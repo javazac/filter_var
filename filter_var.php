@@ -270,7 +270,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		elseif($variable === '0' || $variable === 'false' || $variable === 'off' || $variable === 'no') {
 			$return = FALSE;
 		}
-		elseif($flags == FILTER_NULL_ON_FAILURE) {
+		elseif($flags & FILTER_NULL_ON_FAILURE) {
 			$return = NULL;
 		}
 	}
