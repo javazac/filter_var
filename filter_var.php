@@ -181,9 +181,17 @@ function filter_id($filtername)
  */
 function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 {
-	$return = FALSE;
+	$return = $variable;
 	$flags = 0;
 	$opts = array();
+
+	// if filter does not exists
+	if (!(($filter >= 0x0200 && $filter <= 0x020a)
+		|| ($filter >= 0x0100 && $filter <= 0x0114)
+		|| $filter == FILTER_CALLBACK)
+	) {
+		return FALSE;
+	}
 
 	if(is_array($options)) {
 		
@@ -199,7 +207,62 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		$flags = $options;
 	}
 
+	if(is_array($variable)) {
+		// require scalar
+		if (!($flags & FILTER_REQUIRE_ARRAY || $flags & FILTER_FORCE_ARRAY)
+			|| $flags & FILTER_REQUIRE_SCALAR
+		) {
+			if ($flags & FILTER_NULL_ON_FAILURE) {
+				return null;
+			} else {
+				return false;
+			}
+		}
+
+		$subFlags = $flags;
+
+		if ($subFlags & FILTER_FORCE_ARRAY) {
+			$subFlags ^= FILTER_FORCE_ARRAY;
+		}
+
+		if ($subFlags & FILTER_REQUIRE_ARRAY) {
+			$subFlags ^= FILTER_REQUIRE_ARRAY;
+		}
+
+		foreach ($variable as $key => $element) {
+			$variable[$key] = filter_var($element, $filter, array(
+				'flags'   => $subFlags,
+				'options' => $opts,
+			));
+		}
+
+		return $variable;
+	}
+
+	if ($flags & FILTER_REQUIRE_ARRAY) {
+		if ($flags & FILTER_NULL_ON_FAILURE) {
+			return null;
+		} else {
+			return false;
+		}
+	}
+
+	if (is_object($variable)) {
+		if (!method_exists($variable, '__toString')) {
+			if ($flags & FILTER_FORCE_ARRAY) {
+				return array(false);
+			} else {
+				return false;
+			}
+		} else {
+			$variable = $variable->__toString();
+		}
+	}
+
+	$return = $variable = (string) $variable;
+
 	if($filter == FILTER_VALIDATE_BOOLEAN) {
+		$return = FALSE;
 
 		if($variable === '1' || $variable === 'true' || $variable === 'on' || $variable === 'yes') {
 			$return = TRUE;
@@ -212,6 +275,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_EMAIL) {
+		$return = FALSE;
 		
 		if(strlen($variable) > 0 && preg_match(_FILTER_EMAIL_REGEX, $variable, $matches)) {
 			$return = $matches[0];	
@@ -219,6 +283,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 	}
 	elseif($filter == FILTER_VALIDATE_FLOAT) {
+		$return = FALSE;
 
 		$variable = trim($variable);
 
@@ -232,6 +297,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 	}
 	elseif($filter == FILTER_VALIDATE_INT) {
+		$return = FALSE;
 
 		$variable = trim($variable);
 
@@ -280,6 +346,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_IP) {
+		$return = FALSE;
 
 		if(strlen($variable) > 0) {
 			
@@ -357,6 +424,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_REGEXP) {
+		$return = FALSE;
 
 		if(strlen($opts['regexp']) > 0) {
 			if(preg_match($opts['regexp'], $variable) > 0) {
@@ -372,6 +440,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_URL) {
+		$return = FALSE;
 
 		if(strlen($variable)) {
 			
@@ -475,6 +544,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 		$return = $tmp_return;
 
+	}
+
+	if ($flags & FILTER_FORCE_ARRAY) {
+		$return = (array) $return;
 	}
 
 	return $return;
