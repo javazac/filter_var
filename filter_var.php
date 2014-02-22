@@ -285,15 +285,65 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 			
 			//Check IPv4 addresses...
 			if(($flags ^ FILTER_FLAG_IPV6) 
-			  && preg_match(_FILTER_IPV4_REGEX, $variable) === 1) {
+			  && preg_match(_FILTER_IPV4_REGEX, $variable, $matches) === 1) {
 
 				$return = $variable;
+
+				if ($flags & FILTER_FLAG_NO_RES_RANGE) {
+					if (($matches[1] == 0)
+						|| ($matches[1] == 100 && ($matches[2] >= 64 && $matches[2] <= 127))
+						|| ($matches[1] == 169 && $matches[2] == 254)
+						|| ($matches[1] == 192 && $matches[2] == 0 && $matches[3] == 2)
+						|| ($matches[1] == 127 && $matches[2] == 0 && $matches[3] == 0 && $matches[4] == 1)
+						|| ($matches[1] >= 224 && $matches[1] <= 255)
+					) {
+						$return = FALSE;
+					}
+				}
 			}
 			//Check IPv6 addresses...
 			elseif(($flags ^ FILTER_FLAG_IPV4)
 			  && preg_match(_FILTER_IPV6_REGEX, $variable) === 1) {
 				
 				$return = $variable;
+
+				if ($flags & FILTER_FLAG_NO_RES_RANGE) {
+					$len = strlen($variable);
+					switch ($len) {
+						case 1: case 0:
+							break;
+						case 2:
+							if (!strcmp('::', $variable)) {
+								$return = FALSE;
+							}
+							break;
+						case 3:
+							if (!strcmp('::1', $variable) || !strcmp('5f:', $variable)) {
+								$return = FALSE;
+							}
+							break;
+						default:
+							if (5 <= $len) {
+								if (!strncasecmp('fe8', $variable, 3)
+									|| !strncasecmp('fe9', $variable, 3)
+									|| !strncasecmp('fea', $variable, 3)
+									|| !strncasecmp('feb', $variable, 3)
+								) {
+									$return = FALSE;
+									break;
+								}
+							}
+
+							if ((9 <= $len && !strncasecmp('2001:0db8', $variable, 9))
+								|| (2 <= $len && !strncasecmp('5f', $variable, 2))
+								|| (4 <= $len && !strncasecmp('3ff3', $variable, 4))
+								|| (8 <= $len && !strncasecmp('2001:001', $variable, 8))
+							) {
+								$return = FALSE;
+								break;
+							}
+					}
+				}
 			}
 
 			//Check if private range ip addresses are not allowed...
