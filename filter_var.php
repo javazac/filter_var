@@ -356,6 +356,16 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 
 				$return = $variable;
 
+				//Check if private range IPv4 addresses are not allowed...
+				if($flags & FILTER_FLAG_NO_PRIV_RANGE) {
+					if (($matches[1] == 10)
+						|| ($matches[1] == 172 && ($matches[2] >= 16 && $matches[2] <= 31))
+						|| ($matches[1] == 192 && $matches[2] == 168)
+					) {
+						$return = FALSE;
+					}
+				}
+
 				if ($flags & FILTER_FLAG_NO_RES_RANGE) {
 					if (($matches[1] == 0)
 						|| ($matches[1] == 100 && ($matches[2] >= 64 && $matches[2] <= 127))
@@ -373,6 +383,15 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 			  && preg_match(_FILTER_IPV6_REGEX, $variable) === 1) {
 				
 				$return = $variable;
+
+				//Check if private range IPv6 addresses are not allowed...
+				if($flags & FILTER_FLAG_NO_PRIV_RANGE) {
+					if (strlen($variable) >= 2
+						&& (!strncasecmp('FC', $variable, 2) || !strncasecmp('FD', $variable, 2))
+					) {
+						$return = FALSE;
+					}
+				}
 
 				if ($flags & FILTER_FLAG_NO_RES_RANGE) {
 					$len = strlen($variable);
@@ -410,15 +429,6 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 								break;
 							}
 					}
-				}
-			}
-
-			//Check if private range ip addresses are not allowed...
-			if($return !== FALSE && $flags & FILTER_FLAG_NO_PRIV_RANGE) {
-
-				//Use a simple test of value to check for IPv4 private ranges.
-				if(strpos($variable, '192.168') === 0) {
-					$return = FALSE;
 				}
 			}
 		}
