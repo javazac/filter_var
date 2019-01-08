@@ -28,5 +28,6 @@ class TestBooleanFilterVar extends AbstractFilterVarTest
 		$this->assertTrue(filter_var('no', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === FALSE, 'The "boolean" filter is failing for "no"');
 		$this->assertTrue(filter_var(FALSE, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === NULL, 'The "boolean" filter is not returning FALSE.');
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === NULL, 'The "boolean" filter is not returning NULL.');
+		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_BOOLEAN, FILTER_REQUIRE_SCALAR|FILTER_NULL_ON_FAILURE) === NULL, 'The "boolean" filter is not returning NULL.');
 	}
 }//end class TestBooleanFilterVar

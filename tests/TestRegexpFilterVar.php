@@ -10,6 +10,7 @@ class TestRegexpFilterVar extends AbstractFilterVarTest
 
 		$this->assertTrue(filter_var($string, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/a/'))) === $string, 'FILTER_VALIDATE_REGEX failed');
 		$this->assertTrue(filter_var($string, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/\d/'))) === FALSE, 'FILTER_VALIDATE_REGEX failed');
+		$this->assertTrue(filter_var($string, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/\d/'), 'flags' => FILTER_NULL_ON_FAILURE)) === NULL, 'FILTER_VALIDATE_REGEX failed');
 	}
 
 	public function testErrorTriggered()

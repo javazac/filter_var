@@ -6,6 +6,7 @@ class TestValidateUrlFilterVar extends AbstractFilterVarTest
 	public function testValidateUrlEmpty()
 	{
 		$this->assertFalse(filter_var('', FILTER_VALIDATE_URL), 'FILTER_VALIDATE_URL didn\'t return false for empty string');
+		$this->assertNull(filter_var('', FILTER_VALIDATE_URL, FILTER_NULL_ON_FAILURE), 'FILTER_VALIDATE_URL didn\'t return null for empty string');
 	}
 
 	public function testValidateUrlNoOpts()

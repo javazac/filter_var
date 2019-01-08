@@ -6,6 +6,7 @@ class TestNumericFilterVar extends AbstractFilterVarTest
 	public function testValidateFloat()
 	{
 		$this->assertTrue(filter_var('', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for ""');
+		$this->assertTrue(filter_var('', FILTER_VALIDATE_FLOAT, FILTER_NULL_ON_FAILURE) === NULL, 'The validate float filter is not returning NULL for ""');
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_FLOAT) === FALSE, 'The validate float filter is not returning FALSE for "testing"');
 		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_FLOAT) === .009, 'The validate float filter is not returning .009 for .009');
 		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_FLOAT) === 1.1, 'The validate float filter is not return 1.1 for 1.1.');
@@ -27,6 +28,7 @@ class TestNumericFilterVar extends AbstractFilterVarTest
 	public function testValidateInt()
 	{
 		$this->assertTrue(filter_var('', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for ""');
+		$this->assertTrue(filter_var('', FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE) === NULL, 'The validate int filter is not returning NULL for ""');
 		$this->assertTrue(filter_var('testing', FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for "testing"');
 		$this->assertTrue(filter_var(.009, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for .009');
 		$this->assertTrue(filter_var(1.1, FILTER_VALIDATE_INT) === FALSE, 'The validate int filter is not returning FALSE for 1.1');

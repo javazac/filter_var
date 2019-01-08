@@ -270,7 +270,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		elseif($variable === '0' || $variable === 'false' || $variable === 'off' || $variable === 'no') {
 			$return = FALSE;
 		}
-		elseif($flags == FILTER_NULL_ON_FAILURE) {
+		elseif($flags & FILTER_NULL_ON_FAILURE) {
 			$return = NULL;
 		}
 	}
@@ -279,6 +279,9 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		
 		if(strlen($variable) > 0 && preg_match(_FILTER_EMAIL_REGEX, $variable, $matches)) {
 			$return = $matches[0];	
+		}
+		elseif($flags & FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
 		}
 
 	}
@@ -293,6 +296,9 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 		
 		if(strlen($variable) > 0 && preg_match(_FILTER_FLOAT_REGEX, $variable) === 1) {
 			$return = floatval($variable);
+		}
+		elseif($flags & FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
 		}
 
 	}
@@ -344,14 +350,38 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				}
 			}
 		}
+
+		if($return === FALSE && $flags & FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
+		}
 	}
 	elseif($filter == FILTER_VALIDATE_IP) {
 		$return = FALSE;
 
 		if(strlen($variable) > 0) {
 			
+			$mode = null;
+			if(false !== strpos($variable, ':')) {
+				$mode = 6;
+			} elseif (false !== strpos($variable, '.')) {
+				$mode = 4;
+			} else {
+				$mode = null;
+				$return = FALSE;
+			}
+
+			if (($flags & FILTER_FLAG_IPV4) && ($flags & FILTER_FLAG_IPV6)) {
+				/* Both formats are cool */
+			} elseif (($flags & FILTER_FLAG_IPV4) && 6 === $mode) {
+				$mode = null;
+				$return = FALSE;
+			} elseif (($flags & FILTER_FLAG_IPV6) && 4 === $mode) {
+				$mode = null;
+				$return = FALSE;
+			}
+
 			//Check IPv4 addresses...
-			if(($flags ^ FILTER_FLAG_IPV6) 
+			if(4 === $mode
 			  && preg_match(_FILTER_IPV4_REGEX, $variable, $matches) === 1) {
 
 				$return = $variable;
@@ -379,7 +409,7 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				}
 			}
 			//Check IPv6 addresses...
-			elseif(($flags ^ FILTER_FLAG_IPV4)
+			elseif(6 === $mode
 			  && preg_match(_FILTER_IPV6_REGEX, $variable) === 1) {
 				
 				$return = $variable;
@@ -432,6 +462,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 				}
 			}
 		}
+
+		if($return === FALSE && $flags & FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
+		}
 	}
 	elseif($filter == FILTER_VALIDATE_REGEXP) {
 		$return = FALSE;
@@ -447,6 +481,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 			$debug_backtrace = debug_backtrace();
 			
 			trigger_error("filter_var(): 'regexp' option missing in {$debug_backtrace[0]['file']} on line {$debug_backtrace[0]['line']}", E_USER_WARNING);
+		}
+
+		if($return === FALSE && $flags & FILTER_NULL_ON_FAILURE) {
+			$return = NULL;
 		}
 	}
 	elseif($filter == FILTER_VALIDATE_URL) {
@@ -475,6 +513,10 @@ function filter_var($variable, $filter = FILTER_DEFAULT, $options = 0)
 					$return = FALSE;
 				}
 			}
+		}
+
+		if($return === FALSE && $flags & FILTER_NULL_ON_FAILURE) {
+		    $return = NULL;
 		}
 	}
 	elseif($filter == FILTER_SANITIZE_EMAIL) {
